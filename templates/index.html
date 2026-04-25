@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Usuário</title>
+    <style>
+        body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;margin:0;padding:2rem;display:flex;justify-content:center;}
+        .container{background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);max-width:420px;width:100%;}
+        h2{margin-top:0;color:#333;}
+        label{display:block;margin-top:1rem;font-weight:bold;}
+        input,select{width:100%;padding:.5rem;margin-top:.3rem;border:1px solid #ccc;border-radius:4px;font-size:1rem;}
+        select[multiple]{height:130px;}
+        button{margin-top:1.5rem;padding:.7rem 1.2rem;background:#0066cc;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1rem;}
+        button:hover{background:#004999;}
+        .msg{margin-top:1.5rem;padding:.8rem;border-radius:4px;display:none;}
+        .msg.success{background:#e0f7e9;color:#2e7d32;}
+        .msg.error{background:#ffebee;color:#c62828;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Cadastro de Usuário</h2>
+
+    <form id="cadForm">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required placeholder="Ex.: João da Silva">
+
+        <label for="email">E‑mail:</label>
+        <input type="email" id="email" name="email" required placeholder="exemplo@dominio.com">
+
+        <label for="commodities">Commodities que deseja acompanhar:</label>
+        <select id="commodities" name="commodities" multiple required>
+            <option value="ouro">Ouro</option>
+            <option value="prata">Prata</option>
+            <option value="petroleo">Petróleo</option>
+            <option value="cafe">Café</option>
+            <option value="soja">Soja</option>
+            <option value="trigo">Trigo</option>
+            <option value="cobre">Cobre</option>
+            <option value="algodao">Algodão</option>
+        </select>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <div id="msg" class="msg"></div>
+</div>
+
+<script>
+    const form = document.getElementById('cadForm');
+    const msgBox = document.getElementById('msg');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // impede recarregamento da página
+
+        // coleta dos valores
+        const nome = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email').value.trim();
+
+        const select = document.getElementById('commodities');
+        const commodities = Array.from(select.selectedOptions).map(o => o.text);
+
+        const payload = { nome, email, commodities };
+
+        try {
+            const resp = await fetch('/salvar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await resp.json();
+
+            if (data.success) {
+                msgBox.className = 'msg success';
+                msgBox.textContent = '✅ Cadastro realizado com sucesso!';
+                form.reset(); // limpa o formulário
+            } else {
+                msgBox.className = 'msg error';
+                msgBox.textContent = '❌ Erro: ' + data.message;
+            }
+        } catch (err) {
+            msgBox.className = 'msg error';
+            msgBox.textContent = '❌ Falha na requisição: ' + err;
+        }
+
+        msgBox.style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
