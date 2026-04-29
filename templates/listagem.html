@@ -22,7 +22,8 @@
         <table>
             <thead>
                 <tr>
-                    <th>Data/Hora</th>
+                    <th>ID</th>
+                    <th>Data de cadastro</th>
                     <th>Nome</th>
                     <th>E‑mail</th>
                     <th>Commodities</th>
@@ -31,10 +32,11 @@
             <tbody>
                 {% for r in registros %}
                 <tr>
-                    <td>{{ r.data_hora }}</td>
+                    <td>{{ r.id }}</td>
+                    <td>{{ r.data_cadastro }}</td>
                     <td>{{ r.nome }}</td>
                     <td>{{ r.email }}</td>
-                    <td>{{ r.commodities.replace('|', ', ') }}</td>
+                    <td>{{ r.commodities }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
