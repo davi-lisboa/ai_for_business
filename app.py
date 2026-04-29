@@ -6,11 +6,12 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-CSV_FILE = "cadastros.csv"
+CSV_FILE = os.environ.get("CSV_FILE", "/tmp/cadastros.csv")
 
 
 def ensure_csv_header():
     """Cria o arquivo CSV com cabeçalho caso ainda não exista."""
+    os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
     if not os.path.isfile(CSV_FILE):
         with open(CSV_FILE, mode="w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
@@ -47,7 +48,6 @@ def salvar():
 
     # 3️⃣ Formata a linha a ser gravada
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    # commodities são guardadas como "Ouro|Prata|Café"
     commodities_str = "|".join(commodities)
 
     linha = [timestamp, nome, email, commodities_str]
@@ -78,6 +78,13 @@ def listagem():
     return render_template("listagem.html", registros=registros)
 
 
+@app.errorhandler(Exception)
+def handle_unexpected_error(exc):
+    """Garante resposta JSON para erros inesperados na API /salvar."""
+    if request.path == "/salvar":
+        return jsonify(success=False, message=f"Erro interno: {exc}"), 500
+    raise exc
+
+
 if __name__ == "__main__":
-    # modo debug = True apenas para desenvolvimento local
     app.run(host="0.0.0.0", port=5000, debug=True)
