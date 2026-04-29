@@ -264,6 +264,7 @@
     <p class="subtitle">Monitore commodities com um cadastro rápido e inteligente.</p>
 
     <form id="cadForm">
+      <div class="form-row">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required placeholder="Ex.: João da Silva">
 
@@ -318,7 +319,7 @@
     </form>
 
     <div id="msg" class="msg"></div>
-</div>
+  </div>
 
 <script>
 const form = document.getElementById('cadForm');
@@ -425,5 +426,8 @@ form.addEventListener('submit', async (e) => {
 });
 </script>
 
+      msgBox.style.display = 'block';
+    });
+  </script>
 </body>
 </html>
