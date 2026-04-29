@@ -105,19 +105,27 @@
                 body: JSON.stringify(payload)
             });
 
-            const data = await resp.json();
+            const contentType = resp.headers.get('content-type') || '';
+            let data;
 
-            if (data.success) {
+            if (contentType.includes('application/json')) {
+                data = await resp.json();
+            } else {
+                const rawText = await resp.text();
+                throw new Error(`Resposta inesperada do servidor (${resp.status}). Trecho: ${rawText.slice(0, 120)}`);
+            }
+
+            if (resp.ok && data.success) {
                 msgBox.className = 'msg success';
                 msgBox.textContent = '✅ Cadastro realizado com sucesso!';
                 form.reset(); // limpa o formulário
             } else {
                 msgBox.className = 'msg error';
-                msgBox.textContent = '❌ Erro: ' + data.message;
+                msgBox.textContent = '❌ Erro: ' + (data.message || 'Não foi possível salvar o cadastro.');
             }
         } catch (err) {
             msgBox.className = 'msg error';
-            msgBox.textContent = '❌ Falha na requisição: ' + err;
+            msgBox.textContent = '❌ Falha na requisição: ' + err.message;
         }
 
         msgBox.style.display = 'block';
