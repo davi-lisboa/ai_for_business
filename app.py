@@ -5,7 +5,20 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-DATA_DIR = os.environ.get("DATA_DIR", os.path.join(os.path.dirname(__file__), "data"))
+
+def resolve_data_dir() -> str:
+    custom_data_dir = os.environ.get("DATA_DIR")
+    if custom_data_dir:
+        return custom_data_dir
+
+    # Em ambiente serverless (ex.: Vercel), somente /tmp é gravável em runtime.
+    if os.environ.get("VERCEL") == "1":
+        return "/tmp/data"
+
+    return os.path.join(os.path.dirname(__file__), "data")
+
+
+DATA_DIR = resolve_data_dir()
 DB_FILE = os.path.join(DATA_DIR, "cadastros.duckdb")
 USERS_CSV = os.path.join(DATA_DIR, "usuarios.csv")
 COMMODITIES_MAP_CSV = os.path.join(DATA_DIR, "commodities_investing_map.csv")
