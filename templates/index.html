@@ -139,6 +139,82 @@
         @media (max-width: 860px) {
             .grid { grid-template-columns: 1fr; }
         }
+            --bg-1: #0a1020;
+            --bg-2: #102a1e;
+            --card: rgba(9, 17, 34, 0.88);
+            --text: #e9f1ff;
+            --muted: #9fb3d9;
+            --primary: #35d07f;
+            --primary-dark: #1fa15f;
+            --line: rgba(130, 174, 255, 0.25);
+            --danger-bg: rgba(255, 72, 72, 0.12);
+            --danger-text: #ff8f8f;
+            --ok-bg: rgba(72, 255, 142, 0.15);
+            --ok-text: #8ef7bb;
+        }
+
+        *{box-sizing:border-box;}
+        body{
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            background: radial-gradient(circle at 20% 20%, #163b2d 0%, transparent 32%),
+                        radial-gradient(circle at 80% 70%, #18336b 0%, transparent 38%),
+                        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+            color: var(--text);
+            margin:0;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:2rem;
+        }
+        .container{
+            background: var(--card);
+            backdrop-filter: blur(6px);
+            border:1px solid var(--line);
+            padding:2rem;
+            border-radius:18px;
+            box-shadow:0 14px 40px rgba(0,0,0,.45);
+            max-width:520px;
+            width:100%;
+        }
+        h2{margin:0 0 .3rem;color:#f0f7ff;font-size:2rem;}
+        .subtitle{margin:0 0 1.6rem;color:var(--muted);font-size:.95rem;}
+        label{display:block;margin-top:1rem;font-weight:600;}
+        input{
+            width:100%;padding:.68rem .75rem;margin-top:.35rem;
+            border:1px solid var(--line);border-radius:10px;font-size:1rem;
+            background: rgba(12, 24, 45, 0.85);color:var(--text);
+        }
+        input::placeholder{color:#9db0c7;}
+        .commodities-group{
+            margin-top:.6rem;border:1px solid var(--line);border-radius:12px;padding:.8rem;background:rgba(14,30,58,.6);
+        }
+        .commodity-item{display:flex;align-items:center;gap:.55rem;margin:.42rem 0;}
+        .commodity-item input{width:auto;margin:0;accent-color:#35d07f;}
+        .commodity-item label{margin:0;font-weight:500;display:inline;cursor:pointer;}
+        button{
+            margin-top:1.5rem;padding:.78rem 1.2rem;background:linear-gradient(135deg,var(--primary), #45e392);
+            color:#042210;border:none;border-radius:10px;cursor:pointer;font-size:1rem;font-weight:700;
+            transition: .2s transform ease, .2s filter ease;
+        }
+        button:hover{filter:brightness(1.03);transform:translateY(-1px);}
+        .msg{margin-top:1.2rem;padding:.85rem;border-radius:10px;display:none;}
+        .msg.success{background:var(--ok-bg);color:var(--ok-text);border:1px solid rgba(107,255,175,.35);}
+        .msg.error{background:var(--danger-bg);color:var(--danger-text);border:1px solid rgba(255,117,117,.3);}
+        body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;margin:0;padding:2rem;display:flex;justify-content:center;}
+        .container{background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);max-width:420px;width:100%;}
+        h2{margin-top:0;color:#333;}
+        label{display:block;margin-top:1rem;font-weight:bold;}
+        input{width:100%;padding:.5rem;margin-top:.3rem;border:1px solid #ccc;border-radius:4px;font-size:1rem;}
+        .commodities-group{margin-top:.6rem;border:1px solid #ccc;border-radius:6px;padding:.8rem;background:#fafafa;}
+        .commodity-item{display:flex;align-items:center;gap:.5rem;margin:.35rem 0;}
+        .commodity-item input{width:auto;margin:0;}
+        .commodity-item label{margin:0;font-weight:normal;display:inline;cursor:pointer;}
+        button{margin-top:1.5rem;padding:.7rem 1.2rem;background:#0066cc;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1rem;}
+        button:hover{background:#004999;}
+        .msg{margin-top:1.5rem;padding:.8rem;border-radius:4px;display:none;}
+        .msg.success{background:#e0f7e9;color:#2e7d32;}
+        .msg.error{background:#ffebee;color:#c62828;}
     </style>
 </head>
 <body>
@@ -184,6 +260,57 @@
                         <div class="commodity-item"><input type="checkbox" id="petroleo" name="commodities" value="🛢️ Petróleo"><label for="petroleo">🛢️ Petróleo</label></div>
                     </fieldset>
                 </div>
+    <h2>🌾 AgroTech Pulse</h2>
+    <p class="subtitle">Monitore commodities com um cadastro rápido e inteligente.</p>
+
+    <form id="cadForm">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required placeholder="Ex.: João da Silva">
+
+        <label for="email">E‑mail:</label>
+        <input type="email" id="email" name="email" required placeholder="exemplo@dominio.com">
+
+        <label>Commodities que deseja acompanhar:</label>
+        <div class="commodities-group" id="commodities">
+            <div class="commodity-item"><input type="checkbox" id="ouro" name="commodities" value="🥇 Ouro"><label for="ouro">🥇 Ouro</label></div>
+            <div class="commodity-item"><input type="checkbox" id="prata" name="commodities" value="🥈 Prata"><label for="prata">🥈 Prata</label></div>
+            <div class="commodity-item"><input type="checkbox" id="petroleo" name="commodities" value="🛢️ Petróleo"><label for="petroleo">🛢️ Petróleo</label></div>
+            <div class="commodity-item"><input type="checkbox" id="cafe" name="commodities" value="☕ Café"><label for="cafe">☕ Café</label></div>
+            <div class="commodity-item"><input type="checkbox" id="soja" name="commodities" value="🌱 Soja"><label for="soja">🌱 Soja</label></div>
+            <div class="commodity-item"><input type="checkbox" id="trigo" name="commodities" value="🌾 Trigo"><label for="trigo">🌾 Trigo</label></div>
+            <div class="commodity-item"><input type="checkbox" id="cobre" name="commodities" value="🟠 Cobre"><label for="cobre">🟠 Cobre</label></div>
+            <div class="commodity-item"><input type="checkbox" id="algodao" name="commodities" value="🧵 Algodão"><label for="algodao">🧵 Algodão</label></div>
+            <div class="commodity-item">
+                <input type="checkbox" id="ouro" name="commodities" value="🥇 Ouro">
+                <label for="ouro">🥇 Ouro</label>
+            </div>
+            <div class="commodity-item">
+                <input type="checkbox" id="prata" name="commodities" value="🥈 Prata">
+                <label for="prata">🥈 Prata</label>
+            </div>
+            <div class="commodity-item">
+                <input type="checkbox" id="petroleo" name="commodities" value="🛢️ Petróleo">
+                <label for="petroleo">🛢️ Petróleo</label>
+            </div>
+            <div class="commodity-item">
+                <input type="checkbox" id="cafe" name="commodities" value="☕ Café">
+                <label for="cafe">☕ Café</label>
+            </div>
+            <div class="commodity-item">
+                <input type="checkbox" id="soja" name="commodities" value="🌱 Soja">
+                <label for="soja">🌱 Soja</label>
+            </div>
+            <div class="commodity-item">
+                <input type="checkbox" id="trigo" name="commodities" value="🌾 Trigo">
+                <label for="trigo">🌾 Trigo</label>
+            </div>
+            <div class="commodity-item">
+                <input type="checkbox" id="cobre" name="commodities" value="🟠 Cobre">
+                <label for="cobre">🟠 Cobre</label>
+            </div>
+            <div class="commodity-item">
+                <input type="checkbox" id="algodao" name="commodities" value="🧵 Algodão">
+                <label for="algodao">🧵 Algodão</label>
             </div>
         </div>
 
@@ -235,6 +362,59 @@ form.addEventListener('submit', async (e) => {
         } else {
             msgBox.className = 'msg error';
             msgBox.textContent = '❌ Erro: ' + (data.message || 'Não foi possível salvar o cadastro.');
+            msgBox.className = 'msg error';
+            msgBox.textContent = '❌ Erro: ' + (data.message || 'Não foi possível salvar o cadastro.');
+    const form = document.getElementById('cadForm');
+    const msgBox = document.getElementById('msg');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // impede recarregamento da página
+
+        // coleta dos valores
+        const nome = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email').value.trim();
+
+        const commodities = Array.from(
+            document.querySelectorAll('input[name="commodities"]:checked')
+        ).map(input => input.value);
+
+        if (commodities.length === 0) {
+            msgBox.className = 'msg error';
+            msgBox.textContent = '❌ Selecione pelo menos uma commodity.';
+            msgBox.style.display = 'block';
+            return;
+        }
+
+        const payload = { nome, email, commodities };
+
+        try {
+            const resp = await fetch('/salvar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const contentType = resp.headers.get('content-type') || '';
+            let data;
+
+            if (contentType.includes('application/json')) {
+                data = await resp.json();
+            } else {
+                const rawText = await resp.text();
+                throw new Error(`Resposta inesperada do servidor (${resp.status}). Trecho: ${rawText.slice(0, 120)}`);
+            }
+
+            if (resp.ok && data.success) {
+                msgBox.className = 'msg success';
+                msgBox.textContent = '✅ Cadastro realizado com sucesso!';
+                form.reset(); // limpa o formulário
+            } else {
+                msgBox.className = 'msg error';
+                msgBox.textContent = '❌ Erro: ' + (data.message || 'Não foi possível salvar o cadastro.');
+            }
+        } catch (err) {
+            msgBox.className = 'msg error';
+            msgBox.textContent = '❌ Falha na requisição: ' + err.message;
         }
     } catch (err) {
         msgBox.className = 'msg error';
