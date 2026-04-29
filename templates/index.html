@@ -2,44 +2,194 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Usuário</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroTech | Cadastro de Usuário</title>
     <style>
-        body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;margin:0;padding:2rem;display:flex;justify-content:center;}
-        .container{background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);max-width:420px;width:100%;}
-        h2{margin-top:0;color:#333;}
-        label{display:block;margin-top:1rem;font-weight:bold;}
-        input,select{width:100%;padding:.5rem;margin-top:.3rem;border:1px solid #ccc;border-radius:4px;font-size:1rem;}
-        select[multiple]{height:130px;}
-        button{margin-top:1.5rem;padding:.7rem 1.2rem;background:#0066cc;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1rem;}
-        button:hover{background:#004999;}
-        .msg{margin-top:1.5rem;padding:.8rem;border-radius:4px;display:none;}
-        .msg.success{background:#e0f7e9;color:#2e7d32;}
-        .msg.error{background:#ffebee;color:#c62828;}
+        :root {
+            --bg-dark: #07111f;
+            --panel: rgba(6, 18, 32, 0.84);
+            --panel-2: rgba(5, 23, 38, 0.82);
+            --line: rgba(92, 255, 165, 0.33);
+            --text: #eafff3;
+            --text-soft: #b9e9ce;
+            --primary: #61ffa8;
+            --primary-2: #2fe38a;
+            --error-bg: rgba(255, 91, 91, 0.18);
+            --error-tx: #ffc1c1;
+            --ok-bg: rgba(61, 255, 149, 0.16);
+            --ok-tx: #c3ffe0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            color: #ecfff6;
+            background: #04101c;
+            background-image:
+                linear-gradient(rgba(2, 10, 20, 0.68), rgba(2, 10, 20, 0.78)),
+                url('/static/agrotech-bg.png'),
+                radial-gradient(circle at 20% 15%, rgba(73, 255, 167, 0.16), transparent 35%),
+                radial-gradient(circle at 80% 75%, rgba(63, 220, 255, 0.14), transparent 32%);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: min(1120px, 97vw);
+            background: linear-gradient(145deg, var(--panel), var(--panel-2));
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 2rem 2.2rem;
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.52), inset 0 0 0 1px rgba(97,255,168,0.09);
+        }
+
+        .head {
+            margin-bottom: 1.4rem;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+            color: #ebfff5;
+        }
+
+        .subtitle {
+            margin: .55rem 0 0;
+            color: var(--text-soft);
+            font-size: 1.04rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.3rem;
+        }
+
+        .full { grid-column: 1 / -1; }
+
+        label {
+            display: block;
+            margin-bottom: .45rem;
+            font-weight: 700;
+            color: #e8fff2;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: .8rem .9rem;
+            border: 1px solid rgba(143, 255, 189, 0.35);
+            border-radius: 11px;
+            background: rgba(5, 17, 34, 0.9);
+            color: #f3fff8;
+            font-size: 1.05rem;
+            outline: none;
+        }
+
+        input::placeholder { color: #98c7b0; }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: .85rem;
+        }
+
+        fieldset {
+            margin: 0;
+            border: 1px solid rgba(121, 255, 180, 0.28);
+            border-radius: 12px;
+            padding: .7rem .75rem .45rem;
+            background: rgba(8, 27, 43, 0.65);
+        }
+
+        legend {
+            font-weight: 700;
+            color: #9effca;
+            padding: 0 .35rem;
+        }
+
+        .commodity-item {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin: .42rem 0;
+            color: #e7fff2;
+        }
+
+        .commodity-item input { accent-color: #5effa9; }
+
+        button {
+            margin-top: 1rem;
+            padding: .84rem 1.35rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            color: #042717;
+            font-weight: 800;
+            font-size: 1.02rem;
+            cursor: pointer;
+        }
+
+        .msg { margin-top: 1rem; padding: .85rem; border-radius: 10px; display: none; }
+        .msg.success { background: var(--ok-bg); color: var(--ok-tx); border: 1px solid rgba(125, 255, 187, .4); }
+        .msg.error { background: var(--error-bg); color: var(--error-tx); border: 1px solid rgba(255, 133, 133, .42); }
+
+        
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Cadastro de Usuário</h2>
+    <div class="head">
+        <h2>🌾 AgroTech Pulse</h2>
+        <p class="subtitle">Monitore commodities em um painel com estética agro + tecnologia.</p>
+    </div>
 
     <form id="cadForm">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required placeholder="Ex.: João da Silva">
+        <div class="grid">
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required placeholder="Ex.: João da Silva">
+            </div>
 
-        <label for="email">E‑mail:</label>
-        <input type="email" id="email" name="email" required placeholder="exemplo@dominio.com">
+            <div>
+                <label for="email">E‑mail:</label>
+                <input type="email" id="email" name="email" required placeholder="exemplo@dominio.com">
+            </div>
 
-        <label for="commodities">Commodities que deseja acompanhar:</label>
-        <select id="commodities" name="commodities" multiple required>
-            <option value="ouro">Ouro</option>
-            <option value="prata">Prata</option>
-            <option value="petroleo">Petróleo</option>
-            <option value="cafe">Café</option>
-            <option value="soja">Soja</option>
-            <option value="trigo">Trigo</option>
-            <option value="cobre">Cobre</option>
-            <option value="algodao">Algodão</option>
-        </select>
+            <div class="full">
+                <label>Commodities que deseja acompanhar:</label>
+                <div class="categories">
+                    <fieldset>
+                        <legend>Metálicas</legend>
+                        <div class="commodity-item"><input type="checkbox" id="ouro" name="commodities" value="🥇 Ouro"><label for="ouro">🥇 Ouro</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="prata" name="commodities" value="🥈 Prata"><label for="prata">🥈 Prata</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="cobre" name="commodities" value="🟠 Cobre"><label for="cobre">🟠 Cobre</label></div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Agrícolas</legend>
+                        <div class="commodity-item"><input type="checkbox" id="cafe" name="commodities" value="☕ Café"><label for="cafe">☕ Café</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="soja" name="commodities" value="🌱 Soja"><label for="soja">🌱 Soja</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="trigo" name="commodities" value="🌾 Trigo"><label for="trigo">🌾 Trigo</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="algodao" name="commodities" value="🧵 Algodão"><label for="algodao">🧵 Algodão</label></div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Energéticas</legend>
+                        <div class="commodity-item"><input type="checkbox" id="petroleo" name="commodities" value="🛢️ Petróleo"><label for="petroleo">🛢️ Petróleo</label></div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
 
         <button type="submit">Cadastrar</button>
     </form>
@@ -48,45 +198,55 @@
 </div>
 
 <script>
-    const form = document.getElementById('cadForm');
-    const msgBox = document.getElementById('msg');
+const form = document.getElementById('cadForm');
+const msgBox = document.getElementById('msg');
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault(); // impede recarregamento da página
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-        // coleta dos valores
-        const nome = document.getElementById('nome').value.trim();
-        const email = document.getElementById('email').value.trim();
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const commodities = Array.from(document.querySelectorAll('input[name="commodities"]:checked')).map(input => input.value);
 
-        const select = document.getElementById('commodities');
-        const commodities = Array.from(select.selectedOptions).map(o => o.text);
+    if (commodities.length === 0) {
+        msgBox.className = 'msg error';
+        msgBox.textContent = '❌ Selecione pelo menos uma commodity.';
+        msgBox.style.display = 'block';
+        return;
+    }
 
-        const payload = { nome, email, commodities };
+    try {
+        const resp = await fetch('/salvar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nome, email, commodities })
+        });
 
-        try {
-            const resp = await fetch('/salvar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+        const contentType = resp.headers.get('content-type') || '';
+        let data;
 
-            const data = await resp.json();
-
-            if (data.success) {
-                msgBox.className = 'msg success';
-                msgBox.textContent = '✅ Cadastro realizado com sucesso!';
-                form.reset(); // limpa o formulário
-            } else {
-                msgBox.className = 'msg error';
-                msgBox.textContent = '❌ Erro: ' + data.message;
-            }
-        } catch (err) {
-            msgBox.className = 'msg error';
-            msgBox.textContent = '❌ Falha na requisição: ' + err;
+        if (contentType.includes('application/json')) {
+            data = await resp.json();
+        } else {
+            const rawText = await resp.text();
+            throw new Error(`Resposta inesperada do servidor (${resp.status}). Trecho: ${rawText.slice(0, 120)}`);
         }
 
-        msgBox.style.display = 'block';
-    });
+        if (resp.ok && data.success) {
+            msgBox.className = 'msg success';
+            msgBox.textContent = '✅ Cadastro realizado com sucesso!';
+            form.reset();
+        } else {
+            msgBox.className = 'msg error';
+            msgBox.textContent = '❌ Erro: ' + (data.message || 'Não foi possível salvar o cadastro.');
+        }
+    } catch (err) {
+        msgBox.className = 'msg error';
+        msgBox.textContent = '❌ Falha na requisição: ' + err.message;
+    }
+
+    msgBox.style.display = 'block';
+});
 </script>
 
 </body>
