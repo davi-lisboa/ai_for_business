@@ -1,12 +1,11 @@
 from flask import Flask, request, jsonify, render_template
 import os
 import duckdb
-import uuid
 from datetime import datetime
 
 app = Flask(__name__)
 
-DATA_DIR = os.environ.get("DATA_DIR", "/tmp/ai_for_business_data")
+DATA_DIR = os.environ.get("DATA_DIR", os.path.join(os.path.dirname(__file__), "data"))
 DB_FILE = os.path.join(DATA_DIR, "cadastros.duckdb")
 USERS_CSV = os.path.join(DATA_DIR, "usuarios.csv")
 COMMODITIES_MAP_CSV = os.path.join(DATA_DIR, "commodities_investing_map.csv")
@@ -91,9 +90,9 @@ def append_user(nome: str, email: str, commodities: list[str]):
     conn.execute(
         """
         INSERT INTO usuarios (id, nome, email, commodities, data_cadastro)
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (uuid(), ?, ?, ?, ?)
         """,
-        [str(uuid.uuid4()), nome, email, "|".join(commodities), datetime.now()],
+        [nome, email, "|".join(commodities), datetime.now()],
     )
     sync_tables_to_csv(conn)
     conn.close()
