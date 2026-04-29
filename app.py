@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, jsonify, render_template
 import os
 from datetime import datetime
@@ -24,33 +23,6 @@ def get_conn():
         """
     )
     return conn
-
-
-def get_conn():
-    """Abre conexão com DuckDB e garante schema da tabela."""
-    os.makedirs(os.path.dirname(DB_FILE), exist_ok=True)
-    conn = duckdb.connect(DB_FILE)
-    conn.execute(
-        """
-        CREATE TABLE IF NOT EXISTS cadastros (
-            data_hora TIMESTAMP,
-            nome VARCHAR,
-            email VARCHAR,
-            commodities VARCHAR
-        )
-        """
-    )
-    return conn
-CSV_FILE = os.environ.get("CSV_FILE", "/tmp/cadastros.csv")
-
-
-def ensure_csv_header():
-    """Cria o arquivo CSV com cabeçalho caso ainda não exista."""
-    os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
-    if not os.path.isfile(CSV_FILE):
-        with open(CSV_FILE, mode="w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerow(["data_hora", "nome", "email", "commodities"])
 
 
 @app.route("/")
