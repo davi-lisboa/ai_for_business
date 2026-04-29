@@ -78,6 +78,14 @@ def listagem():
     return render_template("listagem.html", registros=registros)
 
 
+@app.errorhandler(Exception)
+def handle_unexpected_error(exc):
+    """Garante resposta JSON para erros inesperados na API /salvar."""
+    if request.path == "/salvar":
+        return jsonify(success=False, message=f"Erro interno: {exc}"), 500
+    raise exc
+
+
 if __name__ == "__main__":
     # modo debug = True apenas para desenvolvimento local
     app.run(host="0.0.0.0", port=5000, debug=True)
