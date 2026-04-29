@@ -1,93 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Cadastro de Usuário</title>
-    <style>
-        body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;margin:0;padding:2rem;display:flex;justify-content:center;}
-        .container{background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);max-width:420px;width:100%;}
-        h2{margin-top:0;color:#333;}
-        label{display:block;margin-top:1rem;font-weight:bold;}
-        input,select{width:100%;padding:.5rem;margin-top:.3rem;border:1px solid #ccc;border-radius:4px;font-size:1rem;}
-        select[multiple]{height:130px;}
-        button{margin-top:1.5rem;padding:.7rem 1.2rem;background:#0066cc;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:1rem;}
-        button:hover{background:#004999;}
-        .msg{margin-top:1.5rem;padding:.8rem;border-radius:4px;display:none;}
-        .msg.success{background:#e0f7e9;color:#2e7d32;}
-        .msg.error{background:#ffebee;color:#c62828;}
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroTech Pulse</title>
+  <style>
+    :root {
+      --bg: #061321;
+      --card: rgba(7, 20, 35, 0.88);
+      --line: rgba(100, 255, 179, 0.35);
+      --text: #ecfff5;
+      --muted: #bce9d3;
+      --input: #1b2c44;
+      --ok-bg: rgba(70, 255, 160, 0.18);
+      --ok-tx: #c8ffe5;
+      --err-bg: rgba(255, 90, 90, 0.17);
+      --err-tx: #ffd0d0;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      color: var(--text);
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(rgba(4, 14, 25, 0.70), rgba(4, 14, 25, 0.76)),
+        url('/static/agrotech-bg.png');
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: min(1100px, 97vw);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 18px 42px rgba(0,0,0,.48);
+    }
+
+    h1 { margin: 0; font-size: clamp(2rem, 4vw, 2.7rem); }
+    .subtitle { margin: 8px 0 20px; color: var(--muted); font-size: 1.06rem; }
+
+    .form-row { margin-bottom: 14px; }
+    label { display: block; margin-bottom: 6px; font-weight: 700; color: #e8fff2; }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      background: var(--input);
+      color: var(--text);
+      border: 1px solid rgba(141, 255, 197, 0.34);
+      border-radius: 11px;
+      padding: 12px 14px;
+      font-size: 1.05rem;
+    }
+    input::placeholder { color: #a8bdd8; }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    fieldset {
+      margin: 0;
+      border: 1px solid rgba(109, 255, 183, 0.26);
+      border-radius: 12px;
+      padding: 8px 10px;
+      background: rgba(10, 31, 50, 0.74);
+    }
+    legend { color: #9fffd0; font-weight: 700; padding: 0 6px; }
+    .item { display: flex; align-items: center; gap: 8px; margin: 7px 0; }
+    .item label { margin: 0; font-weight: 600; }
+
+    button {
+      margin-top: 16px;
+      border: none;
+      border-radius: 11px;
+      padding: 12px 20px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #032113;
+      background: linear-gradient(135deg, #6bffb4, #35e98f);
+      cursor: pointer;
+    }
+
+    .msg { display: none; margin-top: 14px; padding: 12px; border-radius: 10px; }
+    .msg.success { background: var(--ok-bg); color: var(--ok-tx); border: 1px solid rgba(121,255,188,.42); }
+    .msg.error { background: var(--err-bg); color: var(--err-tx); border: 1px solid rgba(255,129,129,.38); }
+  </style>
 </head>
 <body>
-
-<div class="container">
-    <h2>Cadastro de Usuário</h2>
+  <div class="container">
+    <h1>🌾 AgroTech Pulse</h1>
+    <p class="subtitle">Monitore commodities com um cadastro rápido e inteligente.</p>
 
     <form id="cadForm">
+      <div class="form-row">
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required placeholder="Ex.: João da Silva">
+        <input id="nome" name="nome" type="text" required placeholder="Ex.: João da Silva" />
+      </div>
 
-        <label for="email">E‑mail:</label>
-        <input type="email" id="email" name="email" required placeholder="exemplo@dominio.com">
+      <div class="form-row">
+        <label for="email">E-mail:</label>
+        <input id="email" name="email" type="email" required placeholder="exemplo@dominio.com" />
+      </div>
 
-        <label for="commodities">Commodities que deseja acompanhar:</label>
-        <select id="commodities" name="commodities" multiple required>
-            <option value="ouro">Ouro</option>
-            <option value="prata">Prata</option>
-            <option value="petroleo">Petróleo</option>
-            <option value="cafe">Café</option>
-            <option value="soja">Soja</option>
-            <option value="trigo">Trigo</option>
-            <option value="cobre">Cobre</option>
-            <option value="algodao">Algodão</option>
-        </select>
+      <div class="form-row">
+        <label>Commodities que deseja acompanhar:</label>
+        <div class="categories">
+          <fieldset>
+            <legend>Metálicas</legend>
+            <div class="item"><input type="checkbox" id="ouro" name="commodities" value="🥇 Ouro"><label for="ouro">🥇 Ouro</label></div>
+            <div class="item"><input type="checkbox" id="prata" name="commodities" value="🥈 Prata"><label for="prata">🥈 Prata</label></div>
+            <div class="item"><input type="checkbox" id="cobre" name="commodities" value="🟠 Cobre"><label for="cobre">🟠 Cobre</label></div>
+          </fieldset>
 
-        <button type="submit">Cadastrar</button>
+          <fieldset>
+            <legend>Agrícolas</legend>
+            <div class="item"><input type="checkbox" id="cafe" name="commodities" value="☕ Café"><label for="cafe">☕ Café</label></div>
+            <div class="item"><input type="checkbox" id="soja" name="commodities" value="🌱 Soja"><label for="soja">🌱 Soja</label></div>
+            <div class="item"><input type="checkbox" id="trigo" name="commodities" value="🌾 Trigo"><label for="trigo">🌾 Trigo</label></div>
+            <div class="item"><input type="checkbox" id="algodao" name="commodities" value="🧵 Algodão"><label for="algodao">🧵 Algodão</label></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Energéticas</legend>
+            <div class="item"><input type="checkbox" id="petroleo" name="commodities" value="🛢️ Petróleo"><label for="petroleo">🛢️ Petróleo</label></div>
+          </fieldset>
+        </div>
+      </div>
+
+      <button type="submit">Cadastrar</button>
     </form>
 
     <div id="msg" class="msg"></div>
-</div>
+  </div>
 
-<script>
+  <script>
     const form = document.getElementById('cadForm');
     const msgBox = document.getElementById('msg');
 
     form.addEventListener('submit', async (e) => {
-        e.preventDefault(); // impede recarregamento da página
+      e.preventDefault();
 
-        // coleta dos valores
-        const nome = document.getElementById('nome').value.trim();
-        const email = document.getElementById('email').value.trim();
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const commodities = Array.from(document.querySelectorAll('input[name="commodities"]:checked')).map(input => input.value);
 
-        const select = document.getElementById('commodities');
-        const commodities = Array.from(select.selectedOptions).map(o => o.text);
+      if (commodities.length === 0) {
+        msgBox.className = 'msg error';
+        msgBox.textContent = '❌ Selecione pelo menos uma commodity.';
+        msgBox.style.display = 'block';
+        return;
+      }
 
-        const payload = { nome, email, commodities };
+      try {
+        const resp = await fetch('/salvar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, commodities })
+        });
 
-        try {
-            const resp = await fetch('/salvar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+        const contentType = resp.headers.get('content-type') || '';
+        let data;
 
-            const data = await resp.json();
-
-            if (data.success) {
-                msgBox.className = 'msg success';
-                msgBox.textContent = '✅ Cadastro realizado com sucesso!';
-                form.reset(); // limpa o formulário
-            } else {
-                msgBox.className = 'msg error';
-                msgBox.textContent = '❌ Erro: ' + data.message;
-            }
-        } catch (err) {
-            msgBox.className = 'msg error';
-            msgBox.textContent = '❌ Falha na requisição: ' + err;
+        if (contentType.includes('application/json')) {
+          data = await resp.json();
+        } else {
+          const rawText = await resp.text();
+          throw new Error(`Resposta inesperada do servidor (${resp.status}). Trecho: ${rawText.slice(0, 120)}`);
         }
 
-        msgBox.style.display = 'block';
-    });
-</script>
+        if (resp.ok && data.success) {
+          msgBox.className = 'msg success';
+          msgBox.textContent = '✅ Cadastro realizado com sucesso!';
+          form.reset();
+        } else {
+          msgBox.className = 'msg error';
+          msgBox.textContent = '❌ Erro: ' + (data.message || 'Não foi possível salvar o cadastro.');
+        }
+      } catch (err) {
+        msgBox.className = 'msg error';
+        msgBox.textContent = '❌ Falha na requisição: ' + err.message;
+      }
 
+      msgBox.style.display = 'block';
+    });
+  </script>
 </body>
 </html>
