@@ -6,6 +6,139 @@
     <title>AgroTech | Cadastro de Usuário</title>
     <style>
         :root {
+            --bg-dark: #07111f;
+            --panel: rgba(6, 18, 32, 0.84);
+            --panel-2: rgba(5, 23, 38, 0.82);
+            --line: rgba(92, 255, 165, 0.33);
+            --text: #eafff3;
+            --text-soft: #b9e9ce;
+            --primary: #61ffa8;
+            --primary-2: #2fe38a;
+            --error-bg: rgba(255, 91, 91, 0.18);
+            --error-tx: #ffc1c1;
+            --ok-bg: rgba(61, 255, 149, 0.16);
+            --ok-tx: #c3ffe0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            color: var(--text);
+            background:
+                linear-gradient(rgba(2, 10, 20, 0.74), rgba(2, 10, 20, 0.74)),
+                url('/static/agrotech-bg.png') center/cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: min(980px, 96vw);
+            background: linear-gradient(145deg, var(--panel), var(--panel-2));
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 2rem 2.2rem;
+            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.52), inset 0 0 0 1px rgba(97,255,168,0.09);
+        }
+
+        .head {
+            margin-bottom: 1.4rem;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+            color: #ebfff5;
+        }
+
+        .subtitle {
+            margin: .55rem 0 0;
+            color: var(--text-soft);
+            font-size: 1.04rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.3rem;
+        }
+
+        .full { grid-column: 1 / -1; }
+
+        label {
+            display: block;
+            margin-bottom: .45rem;
+            font-weight: 700;
+            color: #e8fff2;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: .8rem .9rem;
+            border: 1px solid rgba(143, 255, 189, 0.35);
+            border-radius: 11px;
+            background: rgba(5, 17, 34, 0.9);
+            color: #f3fff8;
+            font-size: 1.05rem;
+            outline: none;
+        }
+
+        input::placeholder { color: #98c7b0; }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: .85rem;
+        }
+
+        fieldset {
+            margin: 0;
+            border: 1px solid rgba(121, 255, 180, 0.28);
+            border-radius: 12px;
+            padding: .7rem .75rem .45rem;
+            background: rgba(8, 27, 43, 0.65);
+        }
+
+        legend {
+            font-weight: 700;
+            color: #9effca;
+            padding: 0 .35rem;
+        }
+
+        .commodity-item {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin: .42rem 0;
+            color: #e7fff2;
+        }
+
+        .commodity-item input { accent-color: #5effa9; }
+
+        button {
+            margin-top: 1rem;
+            padding: .84rem 1.35rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-2));
+            color: #042717;
+            font-weight: 800;
+            font-size: 1.02rem;
+            cursor: pointer;
+        }
+
+        .msg { margin-top: 1rem; padding: .85rem; border-radius: 10px; display: none; }
+        .msg.success { background: var(--ok-bg); color: var(--ok-tx); border: 1px solid rgba(125, 255, 187, .4); }
+        .msg.error { background: var(--error-bg); color: var(--error-tx); border: 1px solid rgba(255, 133, 133, .42); }
+
+        @media (max-width: 860px) {
+            .grid { grid-template-columns: 1fr; }
+        }
             --bg-1: #0a1020;
             --bg-2: #102a1e;
             --card: rgba(9, 17, 34, 0.88);
@@ -87,6 +220,46 @@
 <body>
 
 <div class="container">
+    <div class="head">
+        <h2>🌾 AgroTech Pulse</h2>
+        <p class="subtitle">Monitore commodities em um painel com estética agro + tecnologia.</p>
+    </div>
+
+    <form id="cadForm">
+        <div class="grid">
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required placeholder="Ex.: João da Silva">
+            </div>
+
+            <div>
+                <label for="email">E‑mail:</label>
+                <input type="email" id="email" name="email" required placeholder="exemplo@dominio.com">
+            </div>
+
+            <div class="full">
+                <label>Commodities que deseja acompanhar:</label>
+                <div class="categories">
+                    <fieldset>
+                        <legend>Metálicas</legend>
+                        <div class="commodity-item"><input type="checkbox" id="ouro" name="commodities" value="🥇 Ouro"><label for="ouro">🥇 Ouro</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="prata" name="commodities" value="🥈 Prata"><label for="prata">🥈 Prata</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="cobre" name="commodities" value="🟠 Cobre"><label for="cobre">🟠 Cobre</label></div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Agrícolas</legend>
+                        <div class="commodity-item"><input type="checkbox" id="cafe" name="commodities" value="☕ Café"><label for="cafe">☕ Café</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="soja" name="commodities" value="🌱 Soja"><label for="soja">🌱 Soja</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="trigo" name="commodities" value="🌾 Trigo"><label for="trigo">🌾 Trigo</label></div>
+                        <div class="commodity-item"><input type="checkbox" id="algodao" name="commodities" value="🧵 Algodão"><label for="algodao">🧵 Algodão</label></div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Energéticas</legend>
+                        <div class="commodity-item"><input type="checkbox" id="petroleo" name="commodities" value="🛢️ Petróleo"><label for="petroleo">🛢️ Petróleo</label></div>
+                    </fieldset>
+                </div>
     <h2>🌾 AgroTech Pulse</h2>
     <p class="subtitle">Monitore commodities com um cadastro rápido e inteligente.</p>
 
@@ -187,6 +360,8 @@ form.addEventListener('submit', async (e) => {
             msgBox.textContent = '✅ Cadastro realizado com sucesso!';
             form.reset();
         } else {
+            msgBox.className = 'msg error';
+            msgBox.textContent = '❌ Erro: ' + (data.message || 'Não foi possível salvar o cadastro.');
             msgBox.className = 'msg error';
             msgBox.textContent = '❌ Erro: ' + (data.message || 'Não foi possível salvar o cadastro.');
     const form = document.getElementById('cadForm');

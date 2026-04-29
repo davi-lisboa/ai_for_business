@@ -24,6 +24,23 @@ def get_conn():
         """
     )
     return conn
+
+
+def get_conn():
+    """Abre conexão com DuckDB e garante schema da tabela."""
+    os.makedirs(os.path.dirname(DB_FILE), exist_ok=True)
+    conn = duckdb.connect(DB_FILE)
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS cadastros (
+            data_hora TIMESTAMP,
+            nome VARCHAR,
+            email VARCHAR,
+            commodities VARCHAR
+        )
+        """
+    )
+    return conn
 CSV_FILE = os.environ.get("CSV_FILE", "/tmp/cadastros.csv")
 
 
